@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block title%} Contact {% endblock%}
+{% block content %}
+  <div class="col-xs-12">
+    <div class="section-container-spacer text-center">
+      <h1 class="h2">04 : Contact me</h1>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <form action="/submit_form" method="post" class="reveal-content">
+          <div class="row">
+            <div class="col-md-7">
+              <div class="form-group">
+                <input name="email" type="email" class="form-control" id="email" placeholder="Email" />
+              </div>
+              <div class="form-group">
+                <input name="subject" type="text" class="form-control" id="subject" placeholder="Subject" />
+              </div>
+              <div class="form-group">
+                <textarea name="message" class="form-control" rows="5" placeholder="Enter your message"></textarea>
+              </div>
+              <button type="submit" class="btn btn-default btn-lg">
+                Send
+              </button>
+            </div>
+            <div class="col-md-5 address-container">
+              <ul class="list-unstyled">
+                <li>
+                  <span class="fa-icon">
+                    <i class="fa fa-at" aria-hidden="true"></i>
+                  </span>
+                  <a href="mailto:mark.reijn@hva.nl">mark.reijn@hva.nl</a>
+                </li>
+                <li>
+                  <span class="fa-icon">
+                    <i class="fa fa fa-map-marker" aria-hidden="true"></i>
+                  </span>
+                  Lutjebroek, Noord-Holland
+                </li>
+              </ul>
+              <h3>Follow me on social networks</h3>
+              <a href="http://www.github.com/mka281" title="" class="fa-icon">
+                <i class="fa fa-github"></i>
+              </a>
+              <a href="http://www.linkedin.com/in/muhammed-kilicarslan" title="" class="fa-icon">
+                <i class="fa fa-linkedin"></i>
+              </a>
+              <a href="http://www.twitter.com/mka2834" title="" class="fa-icon">
+                <i class="fa fa-twitter"></i>
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

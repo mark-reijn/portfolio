@@ -1,0 +1,36 @@
+az login
+#AZURE_SUBSCRIPTION_NAME='Self-HBO_ICT'
+AZURE_SUBSCRIPTION_NAME='Azure for Students'
+
+
+az account set --subscription $AZURE_SUBSCRIPTION_NAME
+az account show --query id --output tsv
+AZURE_SUBSCRIPTION_ID=$(az account show --query id --output tsv)
+
+##########################################################
+##########################################################
+## STEP 1: SET GLOBAL VARIABLES
+suffix=4444
+# suffix=$RANDOM
+
+RG_NAME=MyRG-$suffix
+LOCATION=westeurope
+
+az group create \
+    --location $LOCATION \
+    --resource-group $RG_NAME
+
+APP_SERVICE_NAME=mainapp-$suffix
+APP_SERVICE_PLAN_NAME=$APP_SERVICE_NAME-plan
+
+az appservice plan create \
+    --name  $APP_SERVICE_PLAN_NAME \
+    --resource-group $RG_NAME  \
+    --sku B1
+
+az webapp up \
+    --name $APP_SERVICE_NAME \
+    --runtime 'PYTHON:3.9' \
+    --resource-group $RG_NAME  \
+    --location $LOCATION \
+    --logs
