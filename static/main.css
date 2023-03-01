@@ -6191,3 +6191,20 @@ textarea {
     float: left;
     margin-right: 5px
 }
+
+.song-container {
+    display: flex;
+    border-radius: 20px;
+    background-color: #383a59;
+    color: #bd93f9;
+}
+
+.song-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+}
+
+.song-info {
+    margin-left: 20px;
+}
