@@ -6199,12 +6199,26 @@ textarea {
     color: #bd93f9;
 }
 
-.song-image {
-    width: 100px;
-    height: 100px;
-    border-radius: 5px;
+.song-container h3 {
+    color: #bd93f9 !important;
 }
+
+.song-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 5px;
+    margin: 10px;
+  }
 
 .song-info {
     margin-left: 20px;
+}
+
+.song-link {
+    text-decoration: none;
+    color: #fff17e;
+}
+
+.song-link:hover {
+    color: #fff17e;
 }
