@@ -27,7 +27,7 @@ def connectToDatabase():
     client = SecretClient(vault_url=KVUri, credential=credential)
     dbString = client.get_secret("DbConnection")
 
-    mongoClient = MongoClient(f"mongodb+srv://{dbString}")
+    mongoClient = MongoClient(f"mongodb+srv://{dbString.value}")
     db = mongoClient.spotify
     return db.song
 
