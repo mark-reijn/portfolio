@@ -1,6 +1,6 @@
 import csv
 import json
-import requests
+from pymongo import MongoClient
 from flask import Flask, render_template, url_for, request, redirect
 app = Flask(__name__)
 
@@ -17,13 +17,20 @@ def convertToJsonArray(data):
             })
     return json.dumps(array)
 
+def connectToDatabase():
+    user = "markreijn"
+    password = "Rn0TwmhnShIeDrWf"
+    client = MongoClient(f"mongodb+srv://{user}:{password}@portfolio.7sw702i.mongodb.net/?retryWrites=true&w=majority")
+    db = client.spotify
+    return db.song
+
 @app.route('/')
 def homepage():
     return render_template('index.html')
 
-@app.route('/<string:page_name>')
-def html_page(page_name):
-    return render_template(page_name)
+# @app.route('/<string:page_name>')
+# def html_page(page_name):
+#     return render_template(page_name)
 
 
 # def write_to_file(data):
@@ -52,16 +59,22 @@ def submit_form():
     else:
         return 'Something went wrong!'
 
-@app.route('songs/<string:token>')
-def get_songs(token):
-       
-    response = requests.get(
-        "https://api.spotify.com/v1/playlists/4RpIr7DUkNf99IRy9Wk74H/tracks?market=NL&limit=10&offset=0", 
-        headers={'Authorization':'Bearer '+ token})
+def songs_from_db():
+    collection = connectToDatabase()
+    songs = collection.find({}, {'_id': False})
+    array = []
 
-    if response.status_code == 200:
-        data = convertToJsonArray(response.json())
-        methods.insertData(data)
-        
-    else: 
-        print(response)
+    for song in songs:
+        array.append(song)
+
+    print(songs)
+    return(songs)
+
+@app.route('/songs')
+def get_songs():
+    collection = connectToDatabase()
+    test = collection.find({}, {'_id': False})
+    return render_template(
+        "../templates/songs.html",
+        songs="hallo man"
+    )
