@@ -1,4 +1,4 @@
-az login
+#az login
 #AZURE_SUBSCRIPTION_NAME='Self-HBO_ICT'
 AZURE_SUBSCRIPTION_NAME='Azure for Students'
 
