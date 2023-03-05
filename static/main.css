@@ -5266,7 +5266,7 @@ button.close {
     border: 1px solid #fff;
     border-radius: 10px;
     cursor: pointer;
-    background-color: #000\9;
+    background-color: #0009;
     background-color: transparent
 }
 
@@ -6197,11 +6197,11 @@ textarea {
     border-radius: 20px;
     background-color: #383a59;
     color: #bd93f9;
+    margin-bottom: 15px;
 }
 
 .song-container h3 {
     color: #bd93f9 !important;
-    margin-bottom: 15px;
 }
 
 .song-image {
