@@ -6,7 +6,7 @@ from pymongo import MongoClient
 from flask import Flask, render_template, url_for, request, redirect
 app = Flask(__name__)
 
-keyVaultName = "PortfolioVaultMark2023"
+keyVaultName = "PortfolioVaultMark2023V3"
 KVUri = f"https://{keyVaultName}.vault.azure.net"
 
 def convertToJsonArray(data):
