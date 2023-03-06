@@ -1,20 +1,26 @@
 import csv
 import json
+import os
+from dotenv import load_dotenv
 from azure.keyvault.secrets import SecretClient
 from azure.identity import DefaultAzureCredential
 from pymongo import MongoClient
 from flask import Flask, render_template, url_for, request, redirect
 app = Flask(__name__)
+load_dotenv()
 
 keyVaultName = "PortfolioVaultMark2023V5"
 KVUri = f"https://{keyVaultName}.vault.azure.net"
 
 def connectToDatabase():
-    credential = DefaultAzureCredential()
-    client = SecretClient(vault_url=KVUri, credential=credential)
-    dbString = client.get_secret("DbConnection")
+    if os.getenv("DB_CONNECTION") == None:
+        credential = DefaultAzureCredential()
+        client = SecretClient(vault_url=KVUri, credential=credential)
+        dbString = client.get_secret("DbConnection").value
+    else:
+        dbString = os.getenv("DB_CONNECTION")
 
-    mongoClient = MongoClient(f"mongodb+srv://{dbString.value}")
+    mongoClient = MongoClient(f"mongodb+srv://{dbString}")
     db = mongoClient.spotify
     return db.song
 
