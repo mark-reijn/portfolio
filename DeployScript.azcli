@@ -1,19 +1,13 @@
 ## this script is made to work using bash, powershell is currently not supported
-#az login
+az login
 az account set --subscription 'Azure for Students'
 
 RESOURCE_NAME='PortfolioResource'
 WEBSITE_NAME='PortfolioMarkReijn'
 SP_NAME='PortfolioServicePlan'
-KEY_NAME='PortfolioVaultMark2023V2'
+KEY_NAME='PortfolioVaultMark2023V5'
 LOCATION='westeurope'
 GIT=https://github.com/mark-reijn/portfolio
-
-# templateFile='main.bicep'
-az deployment sub create \
-    --template-file $templateFile \
-    --location westeurope \
-    --parameters resourceName=$RESOURCE_NAME webAppName=$WEBSITE_NAME
 
 echo "Creating group"
 az group create \
@@ -32,33 +26,40 @@ az keyvault secret set \
     --name 'DbConnection' \
     --value 'markreijn:Rn0TwmhnShIeDrWf@portfolio.7sw702i.mongodb.net/?retryWrites=true&w=majority'
 
-echo "Creating service plan"
-az appservice plan create \
-    --name $SP_NAME \
-    --resource-group $RESOURCE_NAME \
-    --sku B1 \
-    --is-linux
-echo "Creating webapp"
-az webapp up \
-    --name $WEBSITE_NAME \
-    --plan $SP_NAME \
-    --runtime 'PYTHON:3.9' \
-    --resource-group $RESOURCE_NAME \
-    --location $LOCATION \
-    --logs
+# echo "Creating service plan"
+# az appservice plan create \
+#     --name $SP_NAME \
+#     --resource-group $RESOURCE_NAME \
+#     --is-linux \
+#     --sku FREE
 
-echo "Creating webapp identity"
-az webapp identity assign \
-    --name PortfolioMarkReijn \
-    --resource-group $RESOURCE_NAME
-PRINCIPAL_ID=$(az webapp identity show --name PortfolioMarkReijn --resource-group $RESOURCE_NAME | jq -r '.principalId')
-echo $TENANT_ID
+# echo "Creating webapp"
+# az webapp create \
+#     --name $WEBSITE_NAME \
+#     --runtime 'PYTHON:3.9' \
+#     --resource-group $RESOURCE_NAME \
+#     --plan $SP_NAME
 
-echo "Adding webapp identity to the key vault"
-az keyvault set-policy \
-    --name $KEY_NAME \
-    --object-id $PRINCIPAL_ID \
-    --secret-permissions get list
+# echo "Deploying webapp"
+# az webapp deployment source config \
+#     --name $WEBSITE_NAME \
+#     --resource-group $RESOURCE_NAME \
+#     --manual-integration \
+#     --branch main \
+#     --repo-url https://github.com/mark-reijn/portfolio
+
+# echo "Creating webapp identity"
+# az webapp identity assign \
+#     --name PortfolioMarkReijn \
+#     --resource-group $RESOURCE_NAME
+# PRINCIPAL_ID=$(az webapp identity show --name PortfolioMarkReijn --resource-group $RESOURCE_NAME | jq -r '.principalId')
+# echo $TENANT_ID
+
+# echo "Adding webapp identity to the key vault"
+# az keyvault set-policy \
+#     --name $KEY_NAME \
+#     --object-id $PRINCIPAL_ID \
+#     --secret-permissions get list
 
 az group list --query "[].{Name:name,Location:location}" --output table
 az resource list --resource-group $RESOURCE_NAME --query "[].{Name:name,Type:type,Location:location}" --output table

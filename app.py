@@ -6,21 +6,8 @@ from pymongo import MongoClient
 from flask import Flask, render_template, url_for, request, redirect
 app = Flask(__name__)
 
-keyVaultName = "PortfolioVaultMark2023V4"
+keyVaultName = "PortfolioVaultMark2023V5"
 KVUri = f"https://{keyVaultName}.vault.azure.net"
-
-def convertToJsonArray(data):
-    array = [];
-    for item in data['items']:
-            array.append({
-                "id":item['track']['id'],
-                "href":item['track']['external_urls']['spotify'],
-                "name":item['track']['name'],
-                "artist":item['track']['artists'][0]['name'],
-                "duration":item['track']['duration_ms'],
-                "image":item['track']['album']['images'][0]['url']
-            })
-    return json.dumps(array)
 
 def connectToDatabase():
     credential = DefaultAzureCredential()
@@ -38,14 +25,14 @@ def write_to_file(data):
         message = data['message']
         file = database.write(f'\n{email},{subject},{message}')
 
-# @app.route('/submit_form', methods=['GET', 'POST'])
-# def submit_form():
-#     if request.method == 'POST':
-#         data = request.form.to_dict()
-#         write_to_csv(data)
-#         return redirect('/thankyou.html')
-#     else:
-#         return 'Something went wrong!'
+@app.route('/submit_form', methods=['GET', 'POST'])
+def submit_form():
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        write_to_csv(data)
+        return redirect('/thankyou.html')
+    else:
+        return 'Something went wrong!'
 
 def songs_from_db():
     collection = connectToDatabase()
