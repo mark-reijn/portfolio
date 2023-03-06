@@ -1,5 +1,4 @@
 import csv
-import json
 import os
 from dotenv import load_dotenv
 from azure.keyvault.secrets import SecretClient
@@ -9,7 +8,7 @@ from flask import Flask, render_template, url_for, request, redirect
 app = Flask(__name__)
 load_dotenv()
 
-keyVaultName = "PortfolioVaultMark2023V5"
+keyVaultName = "PortfolioVaultMark2023V6"
 KVUri = f"https://{keyVaultName}.vault.azure.net"
 
 def connectToDatabase():
