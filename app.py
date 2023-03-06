@@ -31,6 +31,15 @@ def write_to_file(data):
         message = data['message']
         file = database.write(f'\n{email},{subject},{message}')
 
+def write_to_csv(data):
+    with open('database.csv', 'a', newline='') as csvfile:
+        email = data['email']
+        subject = data['subject']
+        message = data['message']
+        writer = csv.writer(csvfile)
+        writer.writerow([email, subject, message])
+
+
 @app.route('/submit_form', methods=['GET', 'POST'])
 def submit_form():
     if request.method == 'POST':
@@ -77,3 +86,6 @@ def songs():
 def works():
     return render_template("works.html")
 
+@app.route("/thankyou.html")
+def thank():
+    return render_template("thankyou.html")
