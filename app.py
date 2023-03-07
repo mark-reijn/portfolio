@@ -1,5 +1,4 @@
 import csv
-import json
 import os
 from dotenv import load_dotenv
 from azure.keyvault.secrets import SecretClient
@@ -9,7 +8,7 @@ from flask import Flask, render_template, url_for, request, redirect
 app = Flask(__name__)
 load_dotenv()
 
-keyVaultName = "PortfolioVaultMark2023V5"
+keyVaultName = "PortfolioVaultMark2023V6"
 KVUri = f"https://{keyVaultName}.vault.azure.net"
 
 def connectToDatabase():
@@ -30,6 +29,15 @@ def write_to_file(data):
         subject = data['subject']
         message = data['message']
         file = database.write(f'\n{email},{subject},{message}')
+
+def write_to_csv(data):
+    with open('database.csv', 'a', newline='') as csvfile:
+        email = data['email']
+        subject = data['subject']
+        message = data['message']
+        writer = csv.writer(csvfile)
+        writer.writerow([email, subject, message])
+
 
 @app.route('/submit_form', methods=['GET', 'POST'])
 def submit_form():
@@ -77,3 +85,6 @@ def songs():
 def works():
     return render_template("works.html")
 
+@app.route("/thankyou.html")
+def thank():
+    return render_template("thankyou.html")
