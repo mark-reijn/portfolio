@@ -5,7 +5,7 @@ az account set --subscription 'Azure for Students'
 RESOURCE_NAME='PortfolioResource'
 WEBSITE_NAME='PortfolioMarkReijn'
 SP_NAME='PortfolioServicePlan'
-KEY_NAME='PortfolioVaultMark2023V6'
+KEY_NAME='PortfolioVaultMark2023V7'
 LOCATION='westeurope'
 GIT=https://github.com/mark-reijn/portfolio
 
@@ -46,13 +46,13 @@ az webapp deployment source config \
     --resource-group $RESOURCE_NAME \
     --manual-integration \
     --branch main \
-    --repo-url https://github.com/mark-reijn/portfolio
+    --repo-url $GIT
 
 echo "Creating webapp identity"
 az webapp identity assign \
-    --name PortfolioMarkReijn \
+    --name $WEBSITE_NAME \
     --resource-group $RESOURCE_NAME
-PRINCIPAL_ID=$(az webapp identity show --name PortfolioMarkReijn --resource-group $RESOURCE_NAME | jq -r '.principalId')
+PRINCIPAL_ID=$(az webapp identity show --name $WEBSITE_NAME --resource-group $RESOURCE_NAME | jq -r '.principalId')
 echo $PRINCIPAL_ID
 
 echo "Adding webapp identity to the key vault"
